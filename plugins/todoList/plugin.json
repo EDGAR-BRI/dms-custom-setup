@@ -1,0 +1,13 @@
+{
+  "id": "todoList",
+  "name": "Lista de Tareas",
+  "description": "Lista de tareas interactiva sincronizada entre el escritorio y la pantalla de bloqueo",
+  "version": "1.0.0",
+  "author": "Edgar Briceño & Antigravity",
+  "type": "desktop",
+  "capabilities": ["desktop-widget"],
+  "component": "./TodoListWidget.qml",
+  "icon": "checklist",
+  "permissions": ["settings_read", "settings_write"],
+  "requires_dms": ">=2.0.0"
+}

@@ -1,0 +1,2 @@
+// Atajo para alternar el reconocimiento facial en sudo:
+Mod+Ctrl+Shift+S hotkey-overlay-title="Alternar Reconocimiento Facial Sudo" { spawn-sh "/home/edgar/.local/bin/toggle-howdy-sudo.sh"; }

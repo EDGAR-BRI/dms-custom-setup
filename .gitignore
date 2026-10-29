@@ -1,0 +1,7 @@
+# Cache y temporales
+*.o
+*.so
+.DS_Store
+*.swp
+*.bak
+*~

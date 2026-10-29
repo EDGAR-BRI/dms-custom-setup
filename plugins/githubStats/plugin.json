@@ -1,0 +1,13 @@
+{
+  "id": "githubStats",
+  "name": "GitHub Stats",
+  "description": "Estadísticas y gráfico de actividad de GitHub",
+  "version": "1.0.0",
+  "author": "Edgar",
+  "type": "desktop",
+  "capabilities": ["desktop-widget"],
+  "component": "./GitHubStatsWidget.qml",
+  "icon": "terminal",
+  "permissions": ["process", "settings_read", "settings_write"],
+  "requires_dms": ">=2.0.0"
+}

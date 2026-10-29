@@ -1,0 +1,12 @@
+{
+  "id": "howdySudo",
+  "name": "Facial Sudo",
+  "description": "Activar o desactivar reconocimiento facial para sudo",
+  "version": "1.0.0",
+  "author": "Edgar",
+  "type": "widget",
+  "capabilities": ["control-center"],
+  "component": "./HowdySudoWidget.qml",
+  "icon": "face",
+  "permissions": ["process", "settings_read", "settings_write"]
+}
