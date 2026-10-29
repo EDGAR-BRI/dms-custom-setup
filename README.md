@@ -1,95 +1,74 @@
-# DMS + SDDM Custom Setup & Instant Facial Unlock 🚀
+# 🚀 Edgar's Complete Linux Rice & Setup (CachyOS + Niri + DMS + Howdy)
 
-Configuraciones, temas, complementos y módulo PAM inteligente para **Dux Shell (DMS)**, **SDDM** y autenticación biométrica con **Howdy** en **CachyOS / Arch Linux**.
-
----
-
-## 🌟 Características Principales
-
-### 1. ⚡ Desbloqueo Facial Instantáneo Inteligente (Howdy)
-* **Campo de contraseña vacío**: Al presionar <kbd>Enter</kbd> sin escribir nada, el módulo nativo `pam_check_empty.so` salta la verificación de contraseñas de Unix e invoca a **Howdy** al instante (0 ms de retraso de hash).
-* **Contraseña tradicional**: Si escribes tu contraseña y das <kbd>Enter</kbd>, se valida directamente sin encender la cámara ni generar falsos intentos biométricos.
-* **Control para Sudo**:
-  * Alternador con atajo global <kbd>Super</kbd> + <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd>.
-  * Widget en el Centro de Control de DMS (`howdySudo`).
-  * Notificaciones de escritorio en tiempo real del estado de activación.
-
-### 2. 🎨 Pantalla de Inicio de Sesión SDDM Glassmórfica
-* Fondo de pantalla con efecto **blur suave (desenfoque frosted)** y capa translúcida para alto contraste.
-* **Reloj Two-Tone Gigante**: Horas en blanco sólido (`#ffffff`) y minutos en verde neón (`#3fb950`).
-* **Píldora de autenticación**: Avatar circular perfecto, cápsula con borde verde neón y soporte completo para desbloqueo facial instantáneo.
-* **Estadísticas de GitHub**: Tarjeta centrada que muestra avatar, usuario, conteo de contribuciones y la matriz (*heatmap*) de commits.
-* **Botones integrados**:
-  * Botón de energía estilo *squircle* en verde menta pastel (`#9fd5be`) con icono blanco.
-  * Selector de sesión con icono de engranaje blanco nítido, priorizando **Niri**.
-
-### 3. 📋 Complementos Personalizados para Dux Shell (DMS)
-* **`todoList` (Lista de Tareas)**:
-  * Ordenamiento dinámico: Tareas pendientes siempre arriba, completadas se van automáticamente al fondo con tachado y check verde.
-  * **Seguridad en Pantalla de Bloqueo**: Oculta botones de eliminación y papelera en la pantalla de bloqueo para evitar borrado accidental o no autorizado.
-* **`githubStats` (Estadísticas de GitHub)**:
-  * Consulta en vivo vía GraphQL (`gh cli`) o API REST de GitHub.
-  * Renderizado interactivo del mapa de contribuciones de los últimos 6 meses.
-  * Caché local offline.
-* **`howdySudo` (Facial Sudo)**:
-  * Interruptor visual en el Centro de Control para activar o desactivar Howdy en `sudo`.
+Repositorio centralizado con **todas mis configuraciones**, temas, widgets, atajos, scripts y módulos de autenticación biométrica para **CachyOS / Arch Linux**.
 
 ---
 
-## 📦 Estructura del Repositorio
+## 📂 Contenido del Repositorio
 
-```text
-dms-custom-setup/
-├── install.sh                  # Script de instalación automática
-├── README.md                   # Documentación completa
-├── plugins/                    # Complementos para Dux Shell
-│   ├── todoList/               # Widget de Tareas
-│   ├── githubStats/            # Widget de Estadísticas de GitHub
-│   └── howdySudo/              # Widget para alternar Facial Sudo
-├── sddm-theme/                 # Tema personalizado para SDDM
-│   └── Corners/                # Tema Corners adaptado con blur y widgets
-├── pam/                        # Módulo y configuraciones de PAM
-│   ├── pam_check_empty.c       # Código fuente C del módulo inteligente
-│   ├── dankshell               # Configuración PAM para DMS (Lockscreen)
-│   ├── sddm                    # Configuración PAM para SDDM (Login)
-│   └── sudo                    # Configuración PAM para Sudo condicional
-├── scripts/                    # Scripts auxiliares del sistema
-│   ├── toggle-howdy-sudo.sh    # Script ejecutado por el atajo de Niri
-│   └── check-howdy-sudo.sh     # Validador para PAM en /etc/pam.d/sudo
-└── niri/                       # Atajos de Niri
-    └── keybinds-snippet.kdl
+### 🖥️ 1. Entorno de Escritorio y Compositor
+* **Niri** (`.config/niri/`):
+  * Configuración completa `config.kdl` con atajos, layouts, bordes y reglas de ventanas.
+  * Módulos de integración con DMS (`alttab`, `binds`, `colors`, `cursor`, `input`, `layout`, `outputs`, `windowrules`, `wpblur`).
+* **Dux Shell (DMS)** (`.config/dms/`):
+  * `settings.json`, `plugin_settings.json`, `plugins.lock.json`, `firefox.css`.
+  * **Widgets Personalizados**:
+    * `todoList`: Lista de tareas glassmórfica con orden automático y protección en pantalla de bloqueo.
+    * `githubStats`: Mapa de calor de contribuciones de GitHub en vivo.
+    * `howdySudo`: Interruptor en el Centro de Control para alternar Howdy en `sudo`.
+
+### 🖐️ 2. Gestos de Pantalla Táctil (`local/src/niri-touchd/`)
+* Demonio nativo en C (`niri-touchd`) que escucha eventos táctiles del sensor:
+  * Deslizar 3 dedos horizontal: Cambiar columna.
+  * Deslizar 3 dedos vertical: Cambiar espacio de trabajo.
+  * Deslizar 4 dedos vertical: Mover columna al espacio superior/inferior (invertido según preferencia).
+  * Pellizco de 4 dedos: Abrir vista general (*Overview*).
+  * Deslizar en los bordes: Control de brillo (izq) y volumen (der).
+* Servicio de systemd de usuario (`niri-touchd.service`).
+
+### 🔐 3. Autenticación y Desbloqueo Facial Instantáneo (`pam/` y `howdy/`)
+* **`pam_check_empty.so`**: Módulo PAM en C que detecta cuando el campo de contraseña está vacío para saltar la validación tradicional e invocar a **Howdy** al instante (0 ms de retraso de hash).
+* Reglas PAM para `dankshell` (bloqueo), `sddm` (login) y `sudo`.
+* Atajo de Niri (<kbd>Super</kbd> + <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd>) para alternar Howdy en sudo con notificaciones.
+* Perfil de cámara IR optimizado para Dell Latitude 5420 (`howdy/config.ini`).
+
+### 🎨 4. Pantalla de Inicio de Sesión SDDM (`sddm-theme/Corners/`)
+* Fondo de Messi con efecto **blur suave (desenfoque frosted)**.
+* Reloj digital two-tone blanco y verde neón.
+* Píldora de autenticación con avatar circular e icono de candado.
+* Widget de estadísticas de GitHub centrado sobre el 10.
+* Botón de energía en squircle verde menta pastel y selector de sesión para Niri.
+
+### 💻 5. Terminales, Shells y Apariencia
+* **Kitty** (`.config/kitty/`): Configuración de terminal, pestañas (`dank-tabs.conf`) y temas.
+* **Fish & Zsh** (`.config/fish/`, `.zshrc`): Funciones, alias (`obsidian-sync`, `hotspot`), integración con fnm y sonido faaa en fallos.
+* **Fastfetch** (`.config/fastfetch/`): Perfil visual con logos e imágenes personalizadas.
+* **Starship** (`.config/starship/`): Prompt moderno y minimalista.
+* **Rofi, Dunst, Btop, Cava, Wlogout**: Configuraciones completas de interfaz y notificaciones.
+
+---
+
+## 🛠️ Cómo Restaurar Todo en una Nueva PC
+
+### 1. Clonar el Repositorio
+```bash
+git clone https://github.com/EDGAR-BRI/dms-custom-setup.git ~/dms-custom-setup
+cd ~/dms-custom-setup
 ```
 
----
-
-## 🛠️ Instalación en una Nueva PC
-
-### 1. Requisitos Previos
-* CachyOS / Arch Linux
-* **Howdy** configurado y con tus rostros registrados (`sudo howdy add`)
-* **Dux Shell (dms)** y **Niri**
-* Compilador GCC y librerías PAM:
-  ```bash
-  sudo pacman -S --needed base-devel pam gcc jq
-  ```
-
-### 2. Clonar e Instalar
+### 2. Ejecutar el Instalador
 ```bash
-git clone <URL_DEL_REPOSITORIO> ~/dms-custom-setup
-cd ~/dms-custom-setup
 chmod +x install.sh
 ./install.sh
 ```
 
-### 3. Registrar el Atajo en Niri
-Añade la siguiente línea en `~/.config/niri/config.kdl` dentro de la sección `binds { ... }`:
-```kdl
-Mod+Ctrl+Shift+S hotkey-overlay-title="Alternar Reconocimiento Facial Sudo" { spawn-sh "/home/edgar/.local/bin/toggle-howdy-sudo.sh"; }
-```
-Recarga Niri con:
-```bash
-niri msg action load-config-file
-```
+El script `install.sh` se encargará automáticamente de:
+1. Respaldar tus configuraciones actuales en `~/.dotfiles_backup_<fecha>/`.
+2. Compilar e instalar el módulo PAM inteligente `pam_check_empty.so`.
+3. Instalar las reglas de autenticación en `/etc/pam.d/`.
+4. Compilar e iniciar el demonio de gestos `niri-touchd`.
+5. Desplegar todos los dotfiles en `~/.config/` y `~/.local/bin/`.
+6. Instalar el tema de SDDM en `/usr/share/sddm/themes/Corners`.
 
 ---
 

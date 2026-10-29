@@ -1,0 +1,8 @@
+#!/bin/bash
+if systemctl --user is-active --quiet lan-mouse.service; then
+    systemctl --user stop lan-mouse.service
+    notify-send -i network-offline "Lan Mouse" "Apagado" 2>/dev/null
+else
+    systemctl --user start lan-mouse.service
+    notify-send -i network-transmit-receive "Lan Mouse" "Encendido" 2>/dev/null
+fi

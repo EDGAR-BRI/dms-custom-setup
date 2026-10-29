@@ -1,0 +1,15 @@
+[Unit]
+Description=Niri Touchscreen Gestures Daemon (3-finger & 4-finger pinch)
+PartOf=graphical-session.target
+After=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=%h/.local/bin/niri-touchd
+Restart=always
+RestartSec=2
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=graphical-session.target
